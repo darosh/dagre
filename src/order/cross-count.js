@@ -7,12 +7,16 @@ function twoLayerCrossCount (g, northLayer, southLayer) {
   var southPos = _.zipObject(southLayer,
                              _.map(southLayer, function (v, i) { return i }))
   var southEntries = _.flatten(_.map(northLayer, function (v) {
-    return _.chain(g.outEdges(v))
-            .map(function (e) {
-              return { pos: southPos[e.w], weight: g.edge(e).weight }
-            })
-            .sortBy('pos')
-            .value()
+    // return _.chain(g.outEdges(v))
+    //         .map(function (e) {
+    //           return { pos: southPos[e.w], weight: g.edge(e).weight }
+    //         })
+    //         .sortBy('pos')
+    //         .value()
+    return _.sortBy(
+      _.map(g.outEdges(v), function (e) {
+        return { pos: southPos[e.w], weight: g.edge(e).weight }
+      }), 'pos')
   }), true)
 
   // Build the accumulator tree
